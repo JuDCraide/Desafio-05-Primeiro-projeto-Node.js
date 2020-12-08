@@ -25,7 +25,15 @@ transactionRouter.post('/', (request, response) => {
   try {
     const { title, value, type } = request.body;
 
-    const transaction = transactionsRepository.create({ title, value, type });
+    const createTransactionService = new CreateTransactionService(
+      transactionsRepository,
+    );
+
+    const transaction = createTransactionService.execute({
+      title,
+      value,
+      type,
+    });
 
     return response.json(transaction);
   } catch (err) {
